@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WishWall</title>
+    <meta charset="utf-8"/>
+    <link href="css/wishwall.css" rel="stylesheet">
+</head>
+<body class="" id="body">
+<div class="wrap">
+   <header>
+       <a class="title" href="#">许愿墙</a>
+       <div class="menu">
+           <span>首页</span>
+           <span>动态</span>
+           <span>联系我们</span>
+           <span>加入我们</span>
+       </div>
+   </header>
+</div>
+    <section>
+        <h1>I  Wish...</h1>
+      <div class="act">
+          <p><label for="to">我亲爱的 </label><input type="text" id="to"/></p>
+          <p><label for="said">我想说 </label></p><textarea  id="said" cols="21" rows="6" ></textarea>
+          <div id="inputtip">还可以输入49字</div>
+          <p><label for="from">我是</label><input type="text" id="from"/></p>
+          <span class="wish begin" id="begin">开始许愿</span>
+      </div>
+        <br/><br/><br/>
+        <div class="act">
+            <span class="wish legend">七夕传说</span>
+            <div class="legengtext">
+                自古以来，“七夕”就是最具浪漫色彩的节日。古人亦云，天阶夜色凉如水，坐看牵牛织女星。传说，七夕当晚，人们可以在葡萄架下偷听到两人在天上相会时的脉脉情话。
+                由于过往女子的命运只能嫁作人妇、相夫教子，因此不少女子都相信牛郎织女的传说，并希望以织女为榜样。所以每逢七姐诞，她们都会向七姐献祭，祈求自己能够心灵手巧、获得美满姻缘的节日。这也就是“乞巧”这名称的来源。妇女亦会结彩楼，预备黄铜制成的细针（七孔针），以五色细线对月迎风穿针。久而久之，七夕也成为了“女儿节”。
+                2012年，乌丙安、叶舒宪等专家共同倡议将七夕节列为国家法定节假日。
+            </div>
+        </div>
+        <br/><br/>
+        <div class="act">
+            <span class="wish takeme">非诚勿扰</span>
+        </div>
+    </section>
+    <div class="wishwall" id="wishwall"></div>
+</body>
+<script type="text/javascript">
+    document.getElementById("said").onkeydown=cc;
+    document.getElementById("said").onblur=dd;
+    document.getElementById("begin").onclick=tips;
+
+
+    function cc(){
+        var obj=document.getElementById("said");
+        var tip=document.getElementById("inputtip");
+        var reg=/[\u4e00-\u9fa5]/;
+        var regtest=reg.test(obj.value);
+        var len;
+        if(regtest){
+            len=obj.value.length*2;
+        } else{
+            len=obj.value.length;
+        }
+        if(len<=41){
+            tip.style.color="#fff";
+            tip.style.visibility="visible";
+            tip.innerHTML="还可以输入"+(40-len)+"字";
+        }
+        if(len>40){
+            obj.value.length=40;
+            tip.style.color="red";
+            tip.innerHTML="你的心愿太重了！";
+        }
+    }
+    function dd(){
+        var tip=document.getElementById("inputtip");
+        tip.style.visibility="hidden";
+    }
+
+    var tipsi=0;
+   function tips(){
+       tipsi++;
+      var newobj=document.createElement("div");
+      var parobj=document.getElementById("wishwall");
+       var tip=document.getElementById("inputtip");
+       var body=document.getElementById("body");
+       var to=document.getElementById("to").value;
+       var said=document.getElementById("said").value;
+       var from=document.getElementById("from").value;
+       var date=new Date();
+       if(to!=""&&said!=""&&from!=""){
+           body.className="bodymo";
+           tip.style.visibility="hidden";
+           var time=date.getFullYear()+"-"+date.getMonth()+"-"+date.getDay();
+           var rad1=parseInt(Math.random()*10)+3;
+           var rad2=parseInt(Math.random()*10)+3;
+           var rad3=parseInt(Math.random()*10)+3;
+           var rad4=parseInt(Math.random()*10)+2;
+           var rad=rad1*rad2+"px "+rad2*3+"px "+rad3*3+"px "+rad4*5+"px";
+           var color="rgba("+rad1*rad2*rad3/5+","+rad2*rad1*2+","+rad3*10+","+(rad4/12+0.3)+")";
+           var de="rotate("+rad1*3+"deg)";
+           newobj.className="tip3";
+           newobj.id="act-"+tipsi;
+           newobj.innerHTML="<p>亲爱的"+to+"：</p>"+"<p>"+said+"</p>"+"<p>爱着你的："+from+"</p>"+"<p>"+time+"</p>";
+           newobj.style.top=rad1*rad2*rad3-rad2*rad3*rad4+"px";
+           newobj.style.left=rad1*rad3*rad4+"px";
+           newobj.style.minWidth=150+rad1*rad2+"px";
+           newobj.style.borderRadius=rad;
+           newobj.style.webkitTransform=de;
+           newobj.style.backgroundColor=color;
+           parobj.appendChild(newobj);
+           setTimeout(clear,200);
+
+       } else{
+           tip.style.visibility="visible";
+           tip.style.color="red";
+           tip.innerHTML="你还有哪里没填吧？";
+       }
+
+   }
+    function clear(){
+        var to=document.getElementById("to");
+        var said=document.getElementById("said");
+        var from=document.getElementById("from");
+        to.value="";
+        said.value="";
+        from.value="";
+    }
+
+//    //是否能够移动对象
+//    var canmove = 0;
+//    //这是一个onmousedown事件
+//    function checkobj(){
+//        canmove = 1;
+//        var oEvent = window.event||event;
+//        var oMouse=oEvent.target||oEvent.srcElement;
+//        var mouseX = oMouse.clientX;
+//        var mouseY = oMouse.clientY;
+//        var checkobj= oMouse.id;
+//    }
+//    //这是一个onmouseover事件
+//    function moveobj(){
+//        if(canmove){
+//            var oEvent = window.event||event;
+//            var oMouse=oEvent.target||oEvent.srcElement;
+//            var mouseX = oMouse.clientX;
+//            var mouseY = oMouse.clientY;
+//            var checkobj= oMouse.id;
+//            checkobj.style.left =(mouseX-100)+"px";
+//            checkobj.style.top =(mouseY-100)+"px";
+//        }
+//    }
+//    //这是一个onmouseup事件
+//    function downobj(){
+//        canmove=0;
+//    }
+//    //执行这三个函数
+//    document. onmousedown=checkobj;
+//    document.onmousemove=moveobj;
+//    document. onmouseup=downobj;
+
+
+</script>
+</html>
